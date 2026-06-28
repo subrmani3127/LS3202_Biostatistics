@@ -1,0 +1,515 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+
+\tcbuselibrary{breakable}
+
+\definecolor{qcolor}{RGB}{0,70,140}
+\definecolor{acolor}{RGB}{0,110,60}
+\definecolor{notecolor}{RGB}{150,80,0}
+
+\newtcolorbox{question}[1]{%
+  colback=qcolor!5, colframe=qcolor, fonttitle=\bfseries,
+  title={#1}, breakable
+}
+
+\newcommand{\soln}{\par\noindent\textcolor{acolor}{\textbf{Solution.}}\quad}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\fancyhead[L]{LS3202 Biostatistics}
+\fancyhead[R]{End-Semester 2022 -- Solutions}
+\fancyfoot[C]{\thepage}
+
+\title{\textbf{LS3202 Biostatistics \\ End-Semester Examination 2022 -- Solved} \\ \large (May 2, 2022)}
+\author{Solutions prepared for student reference \\ \small (Original question paper by Somdatta Sinha)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=notecolor!8, colframe=notecolor, title=Note on this paper]
+Total Marks: 100. Examination Time: 10:00am to 12:30pm. Students were instructed to state Null and Alternate Hypotheses, the tail of the test, and the inference, wherever applicable.
+\end{tcolorbox}
+
+\tableofcontents
+\vspace{1em}
+
+%================================================================
+\section{Question 1 -- Fill in the blanks (Marks: 10)}
+\begin{question}{Q1}
+Answer in short and fill in the blanks. The $t$-distributions for different values of small sample sizes `$n$' are shown in the plot (curves on the right-hand side). The first left-most curve is the Normal-distribution curve.
+\begin{enumerate}[label=(\roman*)]
+\item Find the values of the statistics for the two dotted lines (on the \emph{Normal distribution}) from the $Z$-Table.
+\item Find the value of the $t$-statistics for the middle dotted line from the $t$-Table for $n=10$ (solid arrow).
+\item The $t$-value \underline{\quad} as $n$ decreases.
+\item The $t$-distribution curve is \underline{\quad} in tails and \underline{\quad} in height compared to the Normal distribution as `$n$' decreases.
+\item The two Tests of Hypotheses that use \emph{Variance} are \underline{\quad} and \underline{\quad} tests.
+\item If the relationship between X and Y is linear, then the \underline{\quad} is a uniform cloud of points.
+\item In a study on randomly chosen males and females of 40 years of age, the calcium concentrations in cells were measured under the treatment of different doses of a hormone. Here, the different ``doses of hormone'' is considered a \underline{\quad} factor, and gender is a \underline{\quad} factor.
+\item The statistic \emph{Range} of a sample is a \underline{\quad} estimator of the population \emph{Range}.
+\item \emph{ANOVA} is used to test the difference in \underline{\quad} of more than two samples.
+\item \emph{Correlation} between X and Y is \underline{\quad} between Y and X.
+\end{enumerate}
+\end{question}
+
+\soln
+
+\textbf{(i) Z-Table values for the Normal-distribution dotted lines.}
+The figure shows the $P$-value of the $t$-statistic on the y-axis against $t$ on the x-axis, with the left-most curve being the standard Normal distribution. The two dotted lines mark the conventional two-tailed critical points on this curve. Reading from the Standard Normal ($Z$) table at the usual significance markers:
+\[
+z_{0.05} = 1.645 \quad (\text{one-tail}, \ P=0.05), \qquad z_{0.025} = 1.96 \quad (\text{two-tail}, \ P=0.05)
+\]
+The two dotted lines on the Normal curve correspond to $z \approx \pm 1.96$ (the points beyond which the two-tailed area is $0.05$), consistent with the $P=0.05$ gridline marked on the plot.
+
+\textbf{(ii) t-statistic for $n=10$ (middle dotted/solid-arrow line).}
+For $n=10$, degrees of freedom $df = n-1 = 9$. From the $t$-Table, at the $P=0.05$ (two-tailed) level:
+\[
+\boxed{t_{0.05,\,9} = 2.262}
+\]
+
+\textbf{(iii)} The $t$-value \textbf{increases} as $n$ decreases (for the same $P$/significance level, the critical $t$-value gets larger as degrees of freedom shrink).
+
+\textbf{(iv)} The $t$-distribution curve is \textbf{thicker/wider (fatter)} in the tails and \textbf{lower (shorter)} in height compared to the Normal distribution as $n$ decreases.
+
+\textbf{(v)} The two tests that use \emph{Variance} are the \textbf{Chi-square ($\chi^2$) test} and the \textbf{$F$-test}.
+
+\textbf{(vi)} If the relationship between X and Y is linear, then the \textbf{residual plot} (plot of residuals vs.\ X, or vs.\ fitted values) is a uniform (random, structureless) cloud of points.
+
+\textbf{(vii)} ``Doses of hormone'' is a \textbf{fixed} factor (the levels are specifically chosen/controlled by the experimenter), and gender is a \textbf{fixed} (classification/blocking) factor as well -- both are typically treated as \emph{fixed effects} in this two-way ANOVA design, since both ``dose'' and ``gender'' represent specific, deliberately chosen categories rather than a random sample of factor levels.
+
+\textbf{(viii)} The statistic \emph{Range} of a sample is a \textbf{biased} estimator of the population Range (it systematically underestimates the true population range, especially for small samples).
+
+\textbf{(ix)} ANOVA is used to test the difference in \textbf{means} of more than two samples.
+
+\textbf{(x)} Correlation between X and Y is \textbf{the same as (identical to)} the correlation between Y and X (correlation is symmetric: $r_{XY} = r_{YX}$).
+
+%================================================================
+\section{Question 2 -- True/False statements (Marks: 20)}
+\begin{question}{Q2}
+Answer the following statements in YES (correct) or NO (wrong).
+\end{question}
+
+\soln
+
+\begin{enumerate}[label=(\roman*)]
+
+\item \textit{The Mean of the Sampling distribution of the Means is an unbiased estimator of the population Mean.}
+\textbf{YES.} By the property of the sampling distribution of the mean, $E[\bar{X}] = \mu$, so it is indeed an unbiased estimator.
+
+\item \textit{Standard Error is the Mean of the Standard Deviations of the samples.}
+\textbf{NO.} The Standard Error (SE) is the \emph{standard deviation of the sampling distribution of the mean}, $SE = \sigma/\sqrt{n}$ -- not the average of individual sample SDs.
+
+\item \textit{To avoid bias in results and ensure that the effects of the treatment are produced only by the treatment itself, clinical trials are typically randomized and double-blinded.}
+\textbf{YES.} Randomization removes selection bias, and double-blinding removes both subject and observer expectation bias.
+
+\item \textit{To test if a coin is "biased/loaded", the Null Hypothesis would be that the coin is "fair" (i.e., $p=1/2$).}
+\textbf{YES.} The null hypothesis is conventionally the "no effect"/status-quo statement, i.e., the coin is fair.
+
+\item \textit{"False Negative" is a Type I Error.}
+\textbf{NO.} A False Negative (failing to detect a true effect) is a \textbf{Type II Error}. A Type I error is a False Positive.
+
+\item \textit{A coin is tossed and you win Rs.1 if there are more than 60\% heads. According to the Law of Averages, one may opt for 100 tosses instead of 10?}
+\textbf{NO.} The "Law of Averages" is a popular misconception (gambler's fallacy) -- there is no guarantee/bias correcting mechanism that makes the proportion of heads converge faster or more favorably with more tosses in any single trial in the way implied. In fact, by the Law of Large Numbers, with \emph{more} tosses the sample proportion converges \emph{more tightly} around 50\%, making it \emph{harder}, not easier, to exceed 60\% heads with 100 tosses than with 10.
+
+\item \textit{In a statistical Test of Hypothesis you choose a Level of Significance (alpha) as 0.05. The p-value from the data comes out to be 0.07. You do not reject the Null Hypothesis.}
+\textbf{YES.} Since $p\text{-value} (0.07) > \alpha (0.05)$, we fail to reject $H_0$.
+
+\item \textit{The Central Limit Theorem shows that the sample Means do not follow a Normal distribution when the population is not Normal.}
+\textbf{NO.} This is the opposite of the CLT. The Central Limit Theorem states that the sampling distribution of the mean \emph{approaches} a Normal distribution as sample size $n$ increases, \emph{regardless} of the shape of the population distribution (provided the population has finite variance).
+
+\item \textit{The 95\% Confidence Interval in a Z-distribution lies between $+/-$ 1.96.}
+\textbf{YES.} For a standard Normal distribution, $P(-1.96 < Z < 1.96) = 0.95$, so the 95\% CI multiplier is $\pm 1.96$ standard errors around the estimate.
+
+\item \textit{While testing the difference of Means for unpaired samples, if the calculated value of `t' from a set of data is $t_{data} = 1.24$, and the critical value of `t' at 5\% level of significance for 16 degrees of freedom is taken as 2.12. The test employed is a One Tailed test.}
+\textbf{NO.} A critical value of $t=2.12$ at $df=16$ and $\alpha=0.05$ corresponds to a \textbf{two-tailed} test (the one-tailed critical value at $\alpha=0.05$, $df=16$ would be $\approx 1.746$; $2.12$ is the two-tailed critical value, i.e., $t_{0.025,16}$).
+
+\end{enumerate}
+
+%================================================================
+\section{Question 3 -- Confidence Interval for Standard Deviation (Marks: 10)}
+\begin{question}{Q3}
+The Standard Deviation of the heights of 16 girl students (chosen at random), in a school of 1000 girl students, is 2.40 inch. Find the 95\% Confidence Intervals of the Standard Deviation for all girl students at the school.
+\end{question}
+
+\soln
+\textbf{Setup.} We have a sample of $n=16$ with sample SD $s=2.40$ inches. To construct a confidence interval for the \emph{population} variance/SD from a small sample, we use the \textbf{Chi-square distribution}, since
+\[
+\frac{(n-1)s^2}{\sigma^2} \sim \chi^2_{(n-1)}.
+\]
+
+Degrees of freedom: $df = n - 1 = 15$.
+
+The $95\%$ CI for the population variance $\sigma^2$ is:
+\[
+\left(\frac{(n-1)s^2}{\chi^2_{0.025,\,15}},\ \frac{(n-1)s^2}{\chi^2_{0.975,\,15}}\right)
+\]
+
+From the $\chi^2$ table with $df=15$:
+\[
+\chi^2_{0.975,\,15} = 6.262 \qquad (\text{lower critical value, leaves } 97.5\% \text{ area to the right})
+\]
+\[
+\chi^2_{0.025,\,15} = 27.488 \qquad (\text{upper critical value, leaves } 2.5\% \text{ area to the right})
+\]
+
+Now, $(n-1)s^2 = 15 \times (2.40)^2 = 15 \times 5.76 = 86.4$.
+
+\[
+\sigma^2_{lower} = \frac{86.4}{27.488} = 3.143, \qquad \sigma^2_{upper} = \frac{86.4}{6.262} = 13.797
+\]
+
+Taking square roots to get the CI for $\sigma$ (the SD):
+\[
+\boxed{95\%\ CI \text{ for } \sigma = (\sqrt{3.143},\ \sqrt{13.797}) = (1.77,\ 3.71)\ \text{inches}}
+\]
+
+\textbf{Interpretation:} We are 95\% confident that the true standard deviation of heights among all 1000 girl students at the school lies between 1.77 and 3.71 inches.
+
+%================================================================
+\section{Question 4 -- Non-parametric test for two independent samples (Marks: 15)}
+\begin{question}{Q4}
+Table shows the percentage of smokers of a particular brand of cigarette in samples of 8 districts in Kerala and 10 districts in Assam. Use a Non-Parametric test to find if there is any difference between the \% of smokers in the samples of two States at 0.05 significance level. Show all calculations.
+
+\begin{center}
+\begin{tabular}{cccccccc}
+\multicolumn{8}{c}{\textbf{KERALA}} \\
+\toprule
+18.3 & 16.4 & 22.7 & 17.8 & 18.9 & 25.3 & 16.1 & 24.2 \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\begin{tabular}{cccccccccc}
+\multicolumn{10}{c}{\textbf{ASSAM}} \\
+\toprule
+12.6 & 14.1 & 20.5 & 10.7 & 15.9 & 19.6 & 12.9 & 11.8 & 15.2 & 14.7 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{question}
+
+\soln
+Since no assumption of Normality is required (and to be safe given small samples from different-sized district groups), we use the \textbf{Wilcoxon Rank-Sum Test (Mann--Whitney U Test)}, a non-parametric test for comparing two independent samples.
+
+\textbf{Step 1: Hypotheses.}
+\[
+H_0:\ \text{The two states have the same distribution of \% smokers (no difference)}
+\]
+\[
+H_1:\ \text{The distributions differ (two-tailed test)}
+\]
+
+\textbf{Step 2: Rank all 18 observations together (smallest = rank 1).}
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l|ccccccccccccccccccc}
+\toprule
+Value & 10.7 & 11.8 & 12.6 & 12.9 & 14.1 & 14.7 & 15.2 & 15.9 & 16.1 & 16.4 & 17.8 & 18.3 & 18.9 & 19.6 & 20.5 & 22.7 & 24.2 & 25.3 \\
+State & A & A & A & A & A & A & A & A & K & K & K & K & K & A & A & K & K & K \\
+Rank  & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 \\
+\bottomrule
+\end{tabular}}
+\end{center}
+(K = Kerala, A = Assam)
+
+\textbf{Step 3: Sum of ranks.}
+\[
+R_{Kerala} = 9+10+11+12+13+16+17+18 = 106, \qquad n_1 = 8
+\]
+\[
+R_{Assam} = 1+2+3+4+5+6+7+8+14+15 = 65, \qquad n_2 = 10
+\]
+(Check: $106+65 = 171 = \frac{18\times19}{2}$. \checkmark)
+
+\textbf{Step 4: Compute the Mann--Whitney $U$ statistic.}
+\[
+U_1 = R_{Kerala} - \frac{n_1(n_1+1)}{2} = 106 - \frac{8\times9}{2} = 106-36 = 70
+\]
+\[
+U_2 = n_1 n_2 - U_1 = 80-70 = 10
+\]
+
+Take $U = \min(U_1,U_2) = 10$.
+
+\textbf{Step 5: Normal approximation (since $n_1, n_2$ are not tiny).}
+\[
+\mu_U = \frac{n_1 n_2}{2} = \frac{80}{2} = 40
+\]
+\[
+\sigma_U = \sqrt{\frac{n_1 n_2 (n_1+n_2+1)}{12}} = \sqrt{\frac{8\times10\times19}{12}} = \sqrt{126.67} = 11.25
+\]
+\[
+z = \frac{U - \mu_U}{\sigma_U} = \frac{10-40}{11.25} = -2.67
+\]
+
+\textbf{Step 6: Decision.} For a two-tailed test at $\alpha=0.05$, the critical $|z| = 1.96$.
+
+Since $|{-2.67}| = 2.67 > 1.96$, we \textbf{reject $H_0$}.
+
+\textbf{Step 7: Inference.} There is a statistically significant difference (at $\alpha=0.05$) between the \% of smokers in the sampled districts of Kerala and Assam -- Kerala's districts show systematically higher \% smokers (higher ranks) than Assam's in this sample.
+
+%================================================================
+\section{Question 5 -- Correlation between Mid-term and End-term marks (Marks: 15)}
+\begin{question}{Q5}
+Marks (out of 100) obtained by 12 students in the Mid-term and End-term examinations in the Biostatistics course is given in the Table below. Find, if the marks of the students in the two examinations are correlated (can use Parametric OR Non-Parametric approach). Show all calculations.
+
+\begin{center}
+\begin{tabular}{c|cccccccccccc}
+\toprule
+Mid-Term & 65 & 63 & 67 & 64 & 68 & 62 & 70 & 66 & 68 & 67 & 69 & 71 \\
+End-Term & 68 & 66 & 68 & 65 & 69 & 66 & 68 & 65 & 71 & 67 & 68 & 70 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{question}
+
+\soln
+We use the \textbf{Parametric approach: Pearson's Product-Moment Correlation Coefficient}, since both variables are continuous (marks) and a roughly linear association is plausible.
+
+\textbf{Step 1: Hypotheses.}
+\[
+H_0: \rho = 0 \quad (\text{no linear correlation between Mid-term and End-term marks})
+\]
+\[
+H_1: \rho \neq 0 \quad (\text{two-tailed test})
+\]
+
+\textbf{Step 2: Summary statistics.}
+With $n=12$: $\bar{X} = 66.67$ (Mid-term mean), $\bar{Y} = 67.58$ (End-term mean).
+
+\[
+r = \frac{\sum (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum(X_i-\bar{X})^2 \sum(Y_i-\bar{Y})^2}}
+\]
+
+Carrying out the calculation (deviations, cross-products, and squared deviations summed across all 12 pairs):
+\[
+\boxed{r = 0.703}
+\]
+
+\textbf{Step 3: Test significance of $r$.}
+\[
+t = \frac{r\sqrt{n-2}}{\sqrt{1-r^2}} = \frac{0.703\sqrt{10}}{\sqrt{1-0.494}} = \frac{2.223}{0.712} = 3.12
+\]
+
+with $df = n-2 = 10$.
+
+\textbf{Step 4: Critical value.} For a two-tailed test at $\alpha=0.05$, $df=10$:
+\[
+t_{0.025,\,10} = 2.228
+\]
+
+\textbf{Step 5: Decision.} Since $|t_{calc}| = 3.12 > t_{crit} = 2.228$, we \textbf{reject $H_0$}.
+
+\textbf{Step 6: Inference.} There is a statistically significant positive correlation ($r=0.70$) between students' Mid-term and End-term marks in Biostatistics -- students who score higher in the Mid-term tend to also score higher in the End-term.
+
+\textit{(Note: A non-parametric Spearman's rank correlation on the same data gives $\rho_s \approx 0.74$, leading to the same conclusion.)}
+
+%================================================================
+\section{Question 6 -- Linear Regression and Residuals (Marks: 15 = 10+5)}
+\begin{question}{Q6}
+A species of snake was studied for finding the dependence of their Tail lengths on Body lengths. The Table gives the Tail lengths (Y) for Body lengths (X) of 13 snakes.
+
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+X & Y \\
+\midrule
+3.0 & 1.4 \\
+4.0 & 1.5 \\
+5.0 & 2.2 \\
+6.0 & 2.4 \\
+8.0 & 3.1 \\
+9.0 & 3.2 \\
+10.0 & 3.2 \\
+11.0 & 3.9 \\
+12.0 & 4.1 \\
+14.0 & 4.7 \\
+15.0 & 4.5 \\
+16.0 & 5.2 \\
+17.0 & 5.0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+(a) Find the Regression equation of Y on X.\\
+(b) Plot the Residuals of the data.
+\end{question}
+
+\soln
+
+\subsection*{(a) Regression equation of Y on X}
+
+The simple linear regression model is $Y = a + bX$, where
+\[
+b = \frac{S_{XY}}{S_{XX}}, \qquad a = \bar{Y} - b\bar{X}
+\]
+
+\textbf{Summary statistics} ($n=13$):
+\[
+\sum X = 130, \quad \bar{X} = 10.0, \qquad \sum Y = 44.4, \quad \bar{Y} = 3.415
+\]
+\[
+S_{XX} = \sum (X_i-\bar{X})^2 = 262.0
+\]
+\[
+S_{XY} = \sum (X_i-\bar{X})(Y_i-\bar{Y}) = 70.8
+\]
+
+\textbf{Slope and intercept:}
+\[
+b = \frac{70.8}{262.0} = 0.2702, \qquad a = 3.415 - 0.2702(10.0) = 0.713
+\]
+
+\[
+\boxed{\hat{Y} = 0.713 + 0.270\, X}
+\]
+
+\textbf{Goodness of fit:}
+\[
+S_{YY} = \sum(Y_i-\bar{Y})^2 = 19.657
+\]
+\[
+r = \frac{S_{XY}}{\sqrt{S_{XX}\,S_{YY}}} = \frac{70.8}{\sqrt{262.0\times19.657}} = 0.987, \qquad r^2 = 0.973
+\]
+This indicates a very strong, near-linear positive relationship between body length and tail length: about 97.3\% of the variability in tail length is explained by body length.
+
+\subsection*{(b) Residuals}
+
+The residual for each point is $e_i = Y_i - \hat{Y}_i$, where $\hat{Y}_i = 0.713+0.270X_i$.
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$X$ & $Y$ (observed) & $\hat{Y}$ (predicted) & Residual $e = Y-\hat{Y}$ \\
+\midrule
+3.0  & 1.4 & 1.524 & $-0.124$ \\
+4.0  & 1.5 & 1.794 & $-0.294$ \\
+5.0  & 2.2 & 2.064 & $\phantom{-}0.136$ \\
+6.0  & 2.4 & 2.334 & $\phantom{-}0.066$ \\
+8.0  & 3.1 & 2.875 & $\phantom{-}0.225$ \\
+9.0  & 3.2 & 3.145 & $\phantom{-}0.055$ \\
+10.0 & 3.2 & 3.415 & $-0.215$ \\
+11.0 & 3.9 & 3.686 & $\phantom{-}0.214$ \\
+12.0 & 4.1 & 3.956 & $\phantom{-}0.144$ \\
+14.0 & 4.7 & 4.496 & $\phantom{-}0.204$ \\
+15.0 & 4.5 & 4.767 & $-0.267$ \\
+16.0 & 5.2 & 5.037 & $\phantom{-}0.163$ \\
+17.0 & 5.0 & 5.307 & $-0.307$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Residual plot:} Plotting $e_i$ (y-axis) against $X_i$ (x-axis), the residuals should scatter randomly around zero with no obvious trend if the linear model is appropriate.
+
+\begin{center}
+\setlength{\unitlength}{1mm}
+\begin{picture}(120,60)
+\put(10,30){\vector(1,0){100}} % x-axis
+\put(15,5){\vector(0,1){50}}   % y-axis
+\put(15,30){\line(1,0){95}}    % zero line
+\put(108,32){$X$}
+\put(11,52){$e_i$}
+% plotting points roughly scaled: X from 3 to 17 -> map to 15 to 105; residual -0.31 to 0.23 -> map to y=30 +- 20*residual/0.31
+\put(20,24){\circle*{1}}
+\put(26,17){\circle*{1}}
+\put(32,37){\circle*{1}}
+\put(38,34){\circle*{1}}
+\put(50,40){\circle*{1}}
+\put(56,33){\circle*{1}}
+\put(62,16){\circle*{1}}
+\put(68,39){\circle*{1}}
+\put(74,38){\circle*{1}}
+\put(86,38){\circle*{1}}
+\put(92,15){\circle*{1}}
+\put(98,38){\circle*{1}}
+\put(104,12){\circle*{1}}
+\end{picture}
+\end{center}
+
+\textbf{Comment:} The residuals are scattered fairly randomly above and below the zero line with no strong systematic pattern (no clear curve or funnel shape), supporting the appropriateness of a linear model for this data. There is a mild suggestion that residuals become slightly more variable at higher $X$, but with only 13 points this is not a strong concern.
+
+%================================================================
+\section{Question 7 -- One-Way ANOVA (Marks: 15)}
+\begin{question}{Q7}
+The toxicity of three doses (A, B, C) of a drug was tested on animals. The Table gives the \% mortality. Using One-Way ANOVA, test the hypothesis that there is no difference between the toxicity of the three doses of the drug at 0.05 significance level. Show all calculations.
+
+\begin{center}
+\begin{tabular}{c|cccc}
+\toprule
+A & 4 & 6 & 5 & 5 \\
+B & 3 & 4 & 5 & 4 \\
+C & 2 & 4 & 3 & 3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{question}
+
+\soln
+
+\textbf{Step 1: Hypotheses.}
+\[
+H_0: \mu_A = \mu_B = \mu_C \quad (\text{no difference in mean toxicity across doses})
+\]
+\[
+H_1: \text{at least one } \mu_i \text{ differs}
+\]
+
+\textbf{Step 2: Group means and grand mean.}
+\[
+\bar{X}_A = \frac{4+6+5+5}{4}=5.0, \quad \bar{X}_B = \frac{3+4+5+4}{4}=4.0, \quad \bar{X}_C = \frac{2+4+3+3}{4}=3.0
+\]
+\[
+\text{Grand mean } \bar{X} = \frac{5.0+4.0+3.0}{3} = 4.0 \quad (n_{total}=12)
+\]
+
+\textbf{Step 3: Sum of Squares.}
+
+\emph{Between-groups (treatment) SS:}
+\[
+SS_{between} = \sum n_i(\bar{X}_i - \bar{X})^2 = 4(5-4)^2+4(4-4)^2+4(3-4)^2 = 4+0+4 = 8
+\]
+
+\emph{Total SS:}
+\[
+SS_{total} = \sum (X_{ij}-\bar{X})^2 = 14.0
+\]
+(computed by summing $(X_{ij}-4)^2$ over all 12 data points)
+
+\emph{Within-groups (error) SS:}
+\[
+SS_{error} = SS_{total} - SS_{between} = 14.0 - 8.0 = 6.0
+\]
+
+\textbf{Step 4: ANOVA Table.}
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Source & SS & df & MS & F \\
+\midrule
+Between (Treatment) & 8.0 & $k-1=2$ & 4.0 & \\
+Within (Error)      & 6.0 & $n-k=9$ & 0.667 & \\
+\midrule
+Total & 14.0 & 11 & & $F = 4.0/0.667 = 6.0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Step 5: Critical value.} $F_{0.05}(2,9) = 4.26$.
+
+\textbf{Step 6: Decision.} Since $F_{calc} = 6.0 > F_{crit} = 4.26$, we \textbf{reject $H_0$}.
+
+\textbf{Step 7: Inference.} At the 5\% significance level, there is a statistically significant difference in the mean \% mortality (toxicity) among the three drug doses A, B, and C. Dose A shows the highest average mortality (5.0\%), followed by B (4.0\%) and C (3.0\%), suggesting toxicity increases with dose.
+
+\end{document}

@@ -1,0 +1,265 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable}
+
+\definecolor{qcolor}{RGB}{0,70,140}
+\definecolor{acolor}{RGB}{0,110,60}
+\definecolor{notecolor}{RGB}{150,80,0}
+
+\newtcolorbox{question}[1]{%
+  colback=qcolor!5, colframe=qcolor, fonttitle=\bfseries,
+  title={#1}, breakable
+}
+
+\newcommand{\soln}{\par\noindent\textcolor{acolor}{\textbf{Solution.}}\quad}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\fancyhead[L]{LS3202 Biostatistics}
+\fancyhead[R]{MidSem 2022 -- Solutions}
+\fancyfoot[C]{\thepage}
+
+\title{\textbf{LS3202 Biostatistics \\ MidSem Examination 2022 -- Solved}}
+\author{Solutions prepared for student reference \\ \small (Original question paper by Dipjyoti Das)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=notecolor!8, colframe=notecolor, title=Note on this paper]
+This paper carries no printed date in the scanned copy, but is included here under the \textbf{2022} folder based on course records. All 8 questions were available and are solved in full below. Total marks: 25.
+\end{tcolorbox}
+
+\tableofcontents
+\vspace{1em}
+
+%================================================================
+\section{Question 1 -- Binomial / Poisson approximation (Marks: 3)}
+\begin{question}{Q1}
+If the probability that an individual will suffer a bad reaction after a given injection is $0.001$, then what will be the probability that \emph{more than} 2 individuals will suffer a bad reaction out of 2000 individuals who got the injection?
+\end{question}
+
+\soln
+Let $X$ = number of individuals (out of $n=2000$) who suffer a bad reaction, with probability of a bad reaction per individual $p = 0.001$.
+
+Since $n$ is large and $p$ is small (with $np$ moderate), $X$ is well approximated by a \textbf{Poisson distribution} with parameter
+\[
+\lambda = np = 2000 \times 0.001 = 2.
+\]
+
+We need $P(X > 2) = 1 - P(X \le 2)$.
+
+\[
+P(X \le 2) = \sum_{k=0}^{2} \frac{e^{-\lambda}\lambda^k}{k!}
+= e^{-2}\left(1 + 2 + \frac{2^2}{2!}\right)
+= e^{-2}(1+2+2) = 5e^{-2}.
+\]
+
+Numerically, $e^{-2} = 0.1353$, so
+\[
+P(X \le 2) = 5 \times 0.1353 = 0.6767.
+\]
+
+\[
+\boxed{P(X>2) = 1 - 0.6767 = 0.3233}
+\]
+
+\textit{(Check: the exact Binomial calculation gives $P(X>2) = 0.3233$ as well -- the Poisson approximation is essentially exact here.)}
+
+%================================================================
+\section{Question 2 -- Variance of a linear combination (Marks: 3)}
+\begin{question}{Q2}
+If $X$ and $Y$ are two independent random variables, then consider a linear function of $X$ and $Y$ such that $Z = aX + bY$ (where $a$ and $b$ are constants). Show that the variance of $Z$ is given by $Var(Z) = a^2 Var(X) + b^2 Var(Y)$. What will be the formula for $Var(Z)$ if $X$ and $Y$ are not independent?
+\end{question}
+
+\soln
+By definition,
+\[
+Var(Z) = E[(Z - E[Z])^2].
+\]
+
+Since $Z = aX+bY$, $E[Z] = aE[X] + bE[Y]$. Hence
+\[
+Z - E[Z] = a(X-E[X]) + b(Y - E[Y]).
+\]
+
+Squaring,
+\[
+(Z-E[Z])^2 = a^2(X-E[X])^2 + b^2(Y-E[Y])^2 + 2ab(X-E[X])(Y-E[Y]).
+\]
+
+Taking expectations,
+\[
+Var(Z) = a^2 Var(X) + b^2 Var(Y) + 2ab\, Cov(X,Y).
+\]
+
+Since $X$ and $Y$ are \textbf{independent}, $Cov(X,Y) = 0$, so the cross term vanishes:
+\[
+\boxed{Var(Z) = a^2 Var(X) + b^2 Var(Y)}
+\]
+
+\textbf{If $X$ and $Y$ are not independent}, the covariance term remains:
+\[
+\boxed{Var(Z) = a^2 Var(X) + b^2 Var(Y) + 2ab\,Cov(X,Y)}
+\]
+
+%================================================================
+\section{Question 3 -- Exponential waiting time (Marks: 3)}
+\begin{question}{Q3}
+Suppose that there could be 5 Dengue outbreaks per year on average in a certain region. Assume that the occurrence of such outbreaks is a Poisson process. Then, what is the probability that the time between two consecutive Dengue outbreaks will be less than one month?
+\end{question}
+
+\soln
+\textbf{Setup.} If the number of events per unit time follows a Poisson process with rate $\lambda$ (events per year), then the time $T$ between consecutive events follows an \textbf{Exponential distribution} with the same rate parameter $\lambda$:
+\[
+f(t) = \lambda e^{-\lambda t}, \qquad t \ge 0, \qquad P(T < t) = 1 - e^{-\lambda t}.
+\]
+
+Here $\lambda = 5$ outbreaks/year. One month $= \dfrac{1}{12}$ year.
+
+\[
+P(T < 1/12) = 1 - e^{-5/12}
+\]
+
+\[
+\boxed{P(T < 1\text{ month}) = 1 - e^{-0.4167} = 1 - 0.6592 = 0.3408}
+\]
+
+%================================================================
+\section{Question 4 -- Geometric distribution (Marks: 3)}
+\begin{question}{Q4}
+For certain manufacturing of injection vials, 1 in every 100 vials is defective on average. What is the probability that the 5th vial inspected is the first defective one found?
+\end{question}
+
+\soln
+Let $p = 0.01$ be the probability a vial is defective, and let $X$ be the number of vials inspected until (and including) the first defective vial. Then $X$ follows a \textbf{Geometric distribution}:
+\[
+P(X=k) = (1-p)^{k-1}p, \qquad k=1,2,3,\dots
+\]
+
+We want $P(X=5)$, i.e., the first 4 vials are good and the 5th is defective:
+\[
+P(X=5) = (1-p)^4 p = (0.99)^4(0.01)
+\]
+
+\[
+\boxed{P(X=5) = 0.99^4 \times 0.01 = 0.9606 \times 0.01 = 0.009606 \approx 0.0096}
+\]
+
+%================================================================
+\section{Question 5 -- Sampling distribution of the mean (Marks: 4)}
+\begin{question}{Q5}
+Data from a National-level survey found that subjects over age 50 had a mean HDL of 54 mg/dl and a standard deviation of 17. Suppose a physician has 40 patients over age 50 and wants to determine the probability that the average HDL cholesterol for this sample of 40 men is 60 mg/dl or more. What will be this probability?
+\end{question}
+
+\soln
+\textbf{Given:} population mean $\mu = 54$, population SD $\sigma = 17$, sample size $n=40$.
+
+By the \textbf{Central Limit Theorem}, since $n=40$ is reasonably large, the sampling distribution of the sample mean $\bar{X}$ is approximately Normal:
+\[
+\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right), \qquad
+SE(\bar{X}) = \frac{\sigma}{\sqrt{n}} = \frac{17}{\sqrt{40}} = 2.688.
+\]
+
+We want $P(\bar{X} \ge 60)$. Standardising:
+\[
+Z = \frac{\bar{X} - \mu}{SE} = \frac{60-54}{2.688} = 2.232.
+\]
+
+From the standard Normal table,
+\[
+P(Z \ge 2.232) = 1 - \Phi(2.232) = 1 - 0.9872
+\]
+
+\[
+\boxed{P(\bar{X} \ge 60) \approx 0.0128 \;\; (\text{about } 1.3\%)}
+\]
+
+This is a small probability, suggesting it would be unusual (though not impossible) for this sample's average HDL to reach 60 mg/dl or higher if the true population parameters are as stated.
+
+%================================================================
+\section{Question 6 -- Confidence Interval for the Mean (Marks: 3)}
+\begin{question}{Q6}
+The average height of 1000 students in a university was found to be 67.45 inches and the standard deviation was 2.93 inches. Find a 95\% confidence interval for the estimating the mean height. [Hint: It is given that for a unit normal distribution, $Prob[z>1.96]=0.025$.]
+\end{question}
+
+\soln
+\textbf{Given:} $n=1000$, $\bar{x} = 67.45$, $s = 2.93$.
+
+Since $n$ is large, the sampling distribution of $\bar{X}$ is approximately Normal, and we use the $Z$-based confidence interval:
+\[
+\bar{x} \pm z_{\alpha/2}\cdot \frac{s}{\sqrt{n}}
+\]
+
+The Standard Error is
+\[
+SE = \frac{s}{\sqrt{n}} = \frac{2.93}{\sqrt{1000}} = 0.0927.
+\]
+
+For a 95\% CI, $z_{0.025} = 1.96$, so the margin of error is
+\[
+1.96 \times 0.0927 = 0.1816.
+\]
+
+\[
+\boxed{95\%\ CI = (67.45 - 0.18,\ 67.45+0.18) = (67.27,\ 67.63)\ \text{inches}}
+\]
+
+\textbf{Interpretation:} We are 95\% confident that the true mean height of all students at the university lies between 67.27 and 67.63 inches.
+
+%================================================================
+\section{Question 7 -- Type I and Type II Errors (Marks: 1+1)}
+\begin{question}{Q7}
+What do you understand by Type I and Type II errors in hypothesis testing? Are they related?
+\end{question}
+
+\soln
+\begin{itemize}
+\item \textbf{Type I Error ($\alpha$):} Rejecting the null hypothesis $H_0$ when it is actually \emph{true}. This is a "false positive" -- concluding there is an effect/difference when there isn't one. The probability of committing a Type I error is the chosen significance level, $\alpha$.
+
+\item \textbf{Type II Error ($\beta$):} Failing to reject $H_0$ when it is actually \emph{false}. This is a "false negative" -- failing to detect a real effect/difference. The probability of this error is denoted $\beta$, and $1-\beta$ is called the \textbf{power} of the test.
+\end{itemize}
+
+\textbf{Relationship:} Yes, $\alpha$ and $\beta$ are related, but inversely -- for a fixed sample size, \emph{decreasing} the probability of a Type I error (i.e., making $\alpha$ smaller, such as moving from 0.05 to 0.01) makes the rejection region smaller, which in turn \emph{increases} the probability of a Type II error, $\beta$ (and vice versa). The only way to reduce both simultaneously is to increase the sample size $n$.
+
+%================================================================
+\section{Question 8 -- One-sample t-test (Marks: 4)}
+\begin{question}{Q8}
+A manufacturing company claims that a scientific instrument expands an average of 46 kilowatt-hour per day. In a random sample of 12 such instruments, it was estimated that the sample average is 42 kilowatt-hours per day with an estimated standard deviation of 11.9 kilowatt-hours per day. Does it suggest that the instrument expands less than 46 kilowatt hours per day on average? Test this at the 0.05 level of significance. What distribution of the sample average will you use?
+\end{question}
+
+\soln
+\textbf{Step 1: Hypotheses.}
+\[
+H_0: \mu = 46 \quad \text{(no difference from claimed mean)}
+\]
+\[
+H_1: \mu < 46 \quad \text{(instrument expands less than claimed -- one-tailed, left-tailed test)}
+\]
+
+\textbf{Step 2: Choice of distribution.} Since the population standard deviation is \emph{unknown} (we only have the sample estimate $s$) and the sample size is small ($n=12 < 30$), the sample average follows a \textbf{$t$-distribution} with $n-1 = 11$ degrees of freedom (assuming the underlying population is approximately Normal).
+
+\textbf{Step 3: Test statistic.}
+\[
+t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{42-46}{11.9/\sqrt{12}} = \frac{-4}{3.435} = -1.164
+\]
+
+\textbf{Step 4: Critical value.} For a one-tailed (left) test at $\alpha=0.05$ with $df=11$:
+\[
+t_{0.05,\,11} = -1.796
+\]
+
+\textbf{Step 5: Decision.} Since the calculated $t = -1.164$ is \emph{not} more extreme than the critical value $-1.796$ (i.e., $-1.164 > -1.796$), we \textbf{fail to reject $H_0$}.
+
+\textbf{Step 6: Inference.} At the 5\% level of significance, there is \textbf{not enough evidence} to conclude that the instrument expands less than 46 kilowatt-hours per day on average. The observed difference (42 vs.\ 46) could plausibly be due to sampling variability alone.
+
+\end{document}

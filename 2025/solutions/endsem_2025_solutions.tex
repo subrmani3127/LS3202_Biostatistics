@@ -1,0 +1,385 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable}
+
+\definecolor{qcolor}{RGB}{0,70,140}
+\definecolor{acolor}{RGB}{0,110,60}
+\definecolor{notecolor}{RGB}{150,80,0}
+
+\newtcolorbox{question}[1]{%
+  colback=qcolor!5, colframe=qcolor, fonttitle=\bfseries,
+  title={#1}, breakable
+}
+
+\newcommand{\soln}{\par\noindent\textcolor{acolor}{\textbf{Solution.}}\quad}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\fancyhead[L]{LS3202 Biostatistics}
+\fancyhead[R]{End-Semester 2025 -- Solutions}
+\fancyfoot[C]{\thepage}
+
+\title{\textbf{LS3202 Biostatistics \\ End-Semester Examination 2025 -- Solved} \\ \large (8th May 2025)}
+\author{Solutions prepared for student reference}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=notecolor!8, colframe=notecolor, title=Note on this paper]
+Time: 2.5 hours. Total: 50 marks (48 + 2 for neatness). Students were asked to answer ALL questions, clearly state assumptions, write relevant formulae and define variables, and specify the confidence level and why a one- or two-tailed test is applicable, wherever required.
+\end{tcolorbox}
+
+\tableofcontents
+\vspace{1em}
+
+%================================================================
+\section{Question 1 -- Multiple Choice (Marks: 2$\times$4=8)}
+\begin{question}{Q1}
+Select a single answer (most appropriate) amongst the choices given. Write letter code only. Negative marks for each incorrect or ambiguous selection.
+
+\begin{enumerate}[label=\roman*)]
+\item A student researcher thinks that the metabolism rate ($k$) of small mammals is directly proportional to their body mass ($m$). She collects data $(k,m)$ data for 30 adult mice. What should be her next verification step? \\
+a) Gender classification \quad b) linear regression \quad c) Z-test \quad d) analysis of variance
+
+\item An exam board need to compare the variances in the scores of two subjects, namely biology and social science. The data is accumulated across all examinees over several years. Select the appropriate test: \\
+a) T-test \quad b) F-test \quad c) Chi-squared test \quad d) analysis of variance
+
+\item A crop scientist wants to study the effect of temperature (T), and of soil nitrogen content (N), on the yield (Y) of soybean. The data (Y) is sorted into finite groups as per T and N. Groups are of equal size and assumed randomly taken from underlying normal distributions. Select the appropriate test: \\
+a) Z-test \quad b) one-way ANOVA \quad c) two-way ANOVA \quad d) non-parametric H-test
+
+\item A cell biologist studies data collected by several workers over the years and with various cell types. Across such data, the mean cell diameter is 24 microns and the standard deviation is 6 microns. Out of 3000 data points, at least how many should fall within the diameter range of (6 to 42 micron)? \\
+a) 1000 \quad b) 2000 \quad c) 2666 \quad d) 333
+\end{enumerate}
+\end{question}
+
+\soln
+
+\textbf{i) Answer: (b) linear regression.}
+A claim of direct proportionality ($k = c\cdot m$ for some constant $c$) is a specific linear relationship. The natural next step after collecting paired $(k,m)$ data is to fit a \textbf{linear regression} of $k$ on $m$ and check whether the fitted line passes (approximately) through the origin with the data showing a strong linear fit -- this directly verifies (or refutes) the proportionality postulate.
+
+\textbf{ii) Answer: (b) F-test.}
+Comparing the \emph{variances} of two independent groups (here, two subjects' score distributions) is the classic application of the \textbf{F-test}, which uses the ratio of two sample variances, $F = s_1^2/s_2^2$.
+
+\textbf{iii) Answer: (c) two-way ANOVA.}
+With \emph{two} factors (Temperature $T$ and Nitrogen $N$) each having multiple levels, equal group sizes, and an assumption of underlying Normality, this is a textbook setup for \textbf{two-way ANOVA}, which tests the main effects of $T$, of $N$, and potentially their interaction, on yield $Y$.
+
+\textbf{iv) Answer: (c) 2666.}
+This applies \textbf{Chebyshev's Inequality}, which works for \emph{any} distribution (not just Normal) and states that at least $\left(1-\dfrac{1}{k^2}\right)$ of the data lies within $k$ standard deviations of the mean.
+
+Here, mean $=24$, SD$=6$. The range (6 to 42) is symmetric about the mean: $24-6=18$ and $42-24=18$, so $18 = k\times 6 \Rightarrow k=3$.
+\[
+\text{Fraction} \ge 1-\frac{1}{3^2} = 1-\frac{1}{9} = \frac{8}{9} = 0.8889
+\]
+\[
+\boxed{\text{At least } 0.8889 \times 3000 = 2666.7\ \Rightarrow\ \textbf{at least 2666 data points}}
+\]
+
+%================================================================
+\section{Question 2 -- Probability, CV, and CLT (Marks: 6+2+2)}
+\begin{question}{Q2}
+\begin{enumerate}[label=\roman*)]
+\item Suppose that 4 children were born in a day at a hospital. Then, what is the probability of having (a) at least 1 boy, and (b) at least 1 boy and 1 girl? Assume that the probability of a male birth (or a female) is 1/2 (i.e., equally likely).
+\item What is the coefficient of variation (CV) of a random variable? How does the CV of a Binomial variable scale with the number of samples?
+\item Suppose that 3 sets of 100 random samples are drawn from the following three distributions, respectively.
+\begin{itemize}
+\item[(a)] $P(x) = Ae^{-(\lambda x)}\ (\lambda>0)$
+\item[(b)] $P(x) = (a-1)x^{-a}$, with $a=2.5$
+\item[(c)] $P(x) = (a-1)x^{-a}$, with $a=3.5$
+\end{itemize}
+Does the Central Limit Theorem hold true for all of them, i.e., do the sample means in all of them follow a normal distribution approximately? You must provide a mathematical logic for your answer.
+\end{enumerate}
+\end{question}
+
+\soln
+
+\subsection*{i) Probability with 4 independent births}
+Let $X$ = number of boys among 4 children, $X \sim \text{Binomial}(4, 0.5)$.
+
+\textbf{(a) At least 1 boy:} Use the complement (no boys at all, i.e., all girls):
+\[
+P(X\ge 1) = 1-P(X=0) = 1-(0.5)^4 = 1-\frac{1}{16}
+\]
+\[
+\boxed{P(\text{at least 1 boy}) = \frac{15}{16} = 0.9375}
+\]
+
+\textbf{(b) At least 1 boy AND at least 1 girl:} The complement of this event is "all 4 are boys" OR "all 4 are girls" (these are mutually exclusive):
+\[
+P(\text{at least 1 boy and at least 1 girl}) = 1 - P(\text{all boys}) - P(\text{all girls}) = 1-(0.5)^4-(0.5)^4
+\]
+\[
+\boxed{= 1-\frac{1}{16}-\frac{1}{16} = 1-\frac{2}{16} = \frac{14}{16} = 0.875}
+\]
+
+\subsection*{ii) Coefficient of Variation (CV)}
+The \textbf{Coefficient of Variation} is a dimensionless measure of relative variability, defined as the ratio of the standard deviation to the mean:
+\[
+CV = \frac{\sigma}{\mu}
+\]
+(often expressed as a percentage). It is useful for comparing the variability of datasets with different units or vastly different means.
+
+\textbf{Scaling for a Binomial variable.} For $X\sim\text{Binomial}(n,p)$: $\mu = np$, $\sigma = \sqrt{np(1-p)}$.
+\[
+CV = \frac{\sqrt{np(1-p)}}{np} = \sqrt{\frac{1-p}{np}} = \sqrt{\frac{1-p}{p}}\cdot\frac{1}{\sqrt{n}}
+\]
+\[
+\boxed{CV \propto \frac{1}{\sqrt{n}}}
+\]
+So, as the number of trials/samples $n$ increases, the CV of a Binomial variable \textbf{decreases proportionally to $1/\sqrt{n}$} -- the relative variability shrinks as $n$ grows (consistent with the Law of Large Numbers).
+
+\subsection*{iii) Does the CLT hold for these three distributions?}
+The Central Limit Theorem requires the underlying population to have a \textbf{finite mean and finite variance}. If both are finite, the sampling distribution of the mean approaches Normality as $n$ (sample size, here implicitly the size used to compute each of the 100 sample means) grows, regardless of the shape of the original distribution.
+
+\textbf{(a) Exponential distribution} $P(x) = \lambda e^{-\lambda x}$ (here $A=\lambda$ by normalization), $x\ge 0$:
+\[
+\mu = \frac{1}{\lambda}\ (\text{finite}), \qquad \sigma^2 = \frac{1}{\lambda^2}\ (\text{finite}) \quad \text{for any } \lambda>0
+\]
+\[
+\boxed{\text{CLT \emph{holds} -- mean and variance are always finite}}
+\]
+
+\textbf{(b) and (c): Pareto-type distribution} $P(x) = (a-1)x^{-a}$, $x\ge 1$. For this density:
+\[
+E[X] = \frac{a-1}{a-2} \quad (\text{finite only if } a>2), \qquad
+E[X^2] = \frac{a-1}{a-3} \quad (\text{finite only if } a>3)
+\]
+and so $Var(X) = E[X^2]-(E[X])^2$ is finite only if $a>3$.
+
+\textbf{(b) $a=2.5$:} Since $2<a=2.5<3$, the \textbf{mean is finite} ($\mu = \frac{1.5}{0.5}=3$) but the \textbf{variance is infinite} ($E[X^2]$ diverges).
+\[
+\boxed{\text{CLT \emph{does NOT hold} for } a=2.5 \text{ -- variance is infinite, a core CLT assumption is violated}}
+\]
+(The sample mean will still converge to $\mu$ by the Law of Large Numbers, since the mean is finite, but its sampling distribution will \emph{not} approach a Normal shape -- it instead approaches a heavy-tailed stable distribution.)
+
+\textbf{(c) $a=3.5$:} Since $a=3.5>3$, both mean ($\mu=\frac{2.5}{1.5}=1.67$) and variance ($\sigma^2 = \frac{2.5}{0.5}-1.67^2 = 5-2.78=2.22$) are finite.
+\[
+\boxed{\text{CLT \emph{holds} for } a=3.5 \text{ -- both mean and variance are finite}}
+\]
+
+%================================================================
+\section{Question 3 -- Toothache Concoction: Two-Sample Hypothesis Test (Marks: 2+5+3=10)}
+\begin{question}{Q3}
+A herbal manufacturer presents a concoction as a remedy for toothache. Prior to filing a patent, it was evaluated with two sets (A and B) of volunteers who had suffered toothache for at least 1 year. Set A applied the concoction routinely for 1 month, while set B did not. Each volunteer was asked to then rate their condition on a scale of 1 (lowest pain) to 10 (highest pain). The results are as follows:
+
+\begin{center}
+\begin{tabular}{c|ccccccccc}
+\toprule
+A & 7 & 4 & 8 & 5 & 3 & 8 & 7 & -- & -- \\
+B & 7 & 9 & 7 & 8 & 6 & 10 & 5 & 8 & 4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Design and conduct a suitable hypothesis test to evaluate if the concoction is effective in pain management. State why the specific test is suitable, and show all key steps clearly. Use $\alpha=0.025$.
+\end{question}
+
+\soln
+
+\textbf{Setup.} Set A ($n_A=7$, the two dashes indicate only 7 volunteers, not missing pairs) and Set B ($n_B=9$) are \textbf{two independent (unpaired) groups} -- different volunteers, not matched pairs, and of \emph{different} sample sizes.
+
+\textbf{Choice of test.} Pain is measured on a 1--10 \textbf{ordinal rating scale}, not a continuous, interval-level measurement, and we have no reason to assume the underlying population of "pain ratings" is Normally distributed (it's a subjective bounded scale, likely skewed). For two independent samples under these conditions, the most appropriate test is the \textbf{Mann--Whitney $U$ test (Wilcoxon Rank-Sum test)}, a non-parametric alternative to the unpaired $t$-test that compares ranks rather than raw means and does not require Normality.
+
+\textbf{Step 1: Hypotheses.} Since we want to test whether the concoction is \emph{effective} (i.e., whether it \emph{reduces} pain), this is a directional claim -- a \textbf{one-tailed test}.
+\[
+H_0: \text{Pain ratings in Set A (treated) are not lower than in Set B (untreated)}
+\]
+\[
+H_1: \text{Pain ratings in Set A (treated) are lower than in Set B (untreated)} \quad (\text{one-tailed, left})
+\]
+
+\textbf{Step 2: Rank all 16 observations together} (average ranks for ties):
+
+\begin{center}
+\small
+\begin{tabular}{l|cccccccccccccccc}
+\toprule
+Value & 3 & 4 & 4 & 5 & 5 & 6 & 7 & 7 & 7 & 7 & 8 & 8 & 8 & 8 & 9 & 10 \\
+Group & A & A & B & A & B & B & A & A & B & B & A & A & B & B & B & B \\
+Rank  & 1 & 2.5 & 2.5 & 4.5 & 4.5 & 6 & 8.5 & 8.5 & 8.5 & 8.5 & 12.5 & 12.5 & 12.5 & 12.5 & 15 & 16 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Step 3: Sum of ranks for Group A.}
+\[
+R_A = 1+2.5+4.5+8.5+8.5+12.5+12.5 = 50.0, \qquad n_A=7
+\]
+\[
+R_B = 2.5+4.5+6+8.5+8.5+12.5+12.5+15+16 = 86.0, \qquad n_B=9
+\]
+(Check: $50+86=136=\frac{16\times17}{2}$. \checkmark)
+
+\textbf{Step 4: Mann--Whitney $U$ statistic.}
+\[
+U_A = R_A - \frac{n_A(n_A+1)}{2} = 50 - \frac{7\times8}{2} = 50-28 = 22
+\]
+\[
+U_B = n_A n_B - U_A = 63-22=41
+\]
+
+\textbf{Step 5: Normal approximation.}
+\[
+\mu_U = \frac{n_A n_B}{2} = \frac{63}{2} = 31.5, \qquad
+\sigma_U = \sqrt{\frac{n_A n_B(n_A+n_B+1)}{12}} = \sqrt{\frac{7\times9\times17}{12}} = \sqrt{89.25}=9.45
+\]
+
+Since we expect a \emph{low} $U_A$ if A's pain ratings tend to rank lower (less pain) than B's:
+\[
+z = \frac{U_A-\mu_U}{\sigma_U} = \frac{22-31.5}{9.45} = -1.006
+\]
+
+\textbf{Step 6: Critical value.} One-tailed test, $\alpha=0.025$: $z_{crit} = -1.96$.
+
+\textbf{Step 7: Decision.} Since $z=-1.006$ is \emph{not} more extreme than $-1.96$ (i.e., $-1.006 > -1.96$), we \textbf{fail to reject $H_0$}.
+
+\textbf{Step 8: Evaluation/Inference.} At $\alpha=0.025$, there is \textbf{not enough statistical evidence} to conclude that the herbal concoction is effective in reducing toothache pain. While Set A's average rating (6.0) is numerically lower than Set B's (7.11), this difference is not large enough, given the sample sizes and the variability in subjective pain ratings, to rule out chance as the explanation.
+
+%================================================================
+\section{Question 4 -- Weight Loss in Children vs. Adults (Marks: 2+5+3=10)}
+\begin{question}{Q4}
+A particular cancer subtype causes consistent weight loss both in children and adults, when the cancer is Stage-II or later. A clinic obtained the fractional change in weight (or $fwc$) 6 months after initial diagnosis at this stage. The following data was recorded:
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+group & Age range (years) & Sample size & $fwc$: mean & $fwc$: standard dev. \\
+\midrule
+Children & 6--16 & 8 & $-0.2$ & 0.10 \\
+Adults & 35--45 & 13 & $-0.3$ & 0.22 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+There are no clear reasons to believe that the underlying populations are normally distributed. Design and conduct a suitable hypothesis test to evaluate if the weight losses are the same in both groups, at a significance level of 0.05. Justify the test used and show all key steps neatly.
+\end{question}
+
+\soln
+
+\textbf{Choice of test.} We are given only \emph{summary statistics} (mean, SD, $n$) for each group -- not the raw data -- so a rank-based non-parametric test (which needs individual values to rank) cannot actually be computed here. Despite the explicit caution that Normality is not clearly justified, the only test usable with summary statistics alone is a \textbf{two-sample $t$-test for unpaired/independent samples}. Since the two groups' sample variances are quite different ($s_1^2=0.01$ vs.\ $s_2^2=0.0484$, roughly a 5-fold difference) and the sample sizes are unequal and small, we use \textbf{Welch's $t$-test} (unpaired $t$-test \emph{without} assuming equal variances), which is more robust to unequal variances than the pooled-variance $t$-test. With $n_1=8, n_2=13$ both being reasonably small-to-moderate, the Central Limit Theorem provides some justification that the \emph{sampling distributions of the means} will be reasonably close to Normal even if the raw $fwc$ values are not, supporting the use of a $t$-based test here as the most practical available option.
+
+\textbf{Step 1: Hypotheses.}
+\[
+H_0: \mu_{children} = \mu_{adults} \quad (\text{mean fractional weight change is the same in both groups})
+\]
+\[
+H_1: \mu_{children} \neq \mu_{adults} \quad (\text{two-tailed test -- we are checking for \emph{any} difference, not a specific direction})
+\]
+
+\textbf{Step 2: Test statistic (Welch's $t$).}
+\[
+t = \frac{(\bar{x}_1-\bar{x}_2)}{\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}} = \frac{(-0.2)-(-0.3)}{\sqrt{\dfrac{0.10^2}{8}+\dfrac{0.22^2}{13}}} = \frac{0.1}{\sqrt{0.00125+0.003723}}= \frac{0.1}{0.0705}
+\]
+\[
+\boxed{t_{calc} = 1.418}
+\]
+
+\textbf{Step 3: Welch-Satterthwaite degrees of freedom.}
+\[
+v_{approx} = \frac{\left(\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}\right)^2}{\dfrac{\left(s_1^2/n_1\right)^2}{n_1-1}+\dfrac{\left(s_2^2/n_2\right)^2}{n_2-1}} = \frac{(0.00125+0.003723)^2}{\dfrac{0.00125^2}{7}+\dfrac{0.003723^2}{12}}
+\]
+\[
+\boxed{v_{approx} \approx 17.9 \quad (\text{round down to } 17 \text{ for the table look-up})}
+\]
+
+\textbf{Step 4: Critical value.} Two-tailed test, $\alpha=0.05$, $df\approx17$\,--\,$18$:
+\[
+t_{crit} \approx 2.10
+\]
+
+\textbf{Step 5: Decision.} Since $|t_{calc}| = 1.418 < t_{crit} = 2.10$, we \textbf{fail to reject $H_0$}.
+
+\textbf{Step 6: Evaluation/Inference.} At the 5\% significance level, there is \textbf{not enough evidence} to conclude that the mean fractional weight loss differs between children and adults with this cancer subtype, despite adults showing a numerically larger average weight loss ($-30\%$ vs.\ $-20\%$) -- the difference is within what could plausibly arise from sampling variability given the observed spread and small sample sizes.
+
+%================================================================
+\section{Question 5 -- Diet Type and Weight Loss (One-way ANOVA) (Marks: 2+4+4=10)}
+\begin{question}{Q5}
+A trial was conducted to evaluate how different diets affected weights (in kg, with $+/-$ indicating gain/loss) in cohorts of elderly people. The data are as under:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Restricted Calorie (RC) & Reduced Protein (RP) & Low Carbohydrates (LC) \\
+\midrule
+4  & 5 & 2  \\
+3  & 4 & $-1$ \\
+5  & 2 & 0  \\
+1  & 3 & 3  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[label=\roman*)]
+\item Construct a hypothesis concerning diet type and weight loss.
+\item Test your hypothesis using single-factor ANOVA. Select appropriate formulae and construct a suitable Table for the test. Evaluate the relevant score. Thereby, establish the hypothesis. Use $\alpha=0.05$.
+\end{enumerate}
+\end{question}
+
+\soln
+
+\subsection*{i) Hypothesis}
+\[
+H_0: \mu_{RC} = \mu_{RP} = \mu_{LC} \quad (\text{mean weight change is the same across all three diet types})
+\]
+\[
+H_1: \text{at least one diet's mean weight change differs from the others}
+\]
+
+\subsection*{ii) One-way ANOVA}
+
+\textbf{Step 1: Group sums, means, grand mean} ($N=12$):
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Diet & $n_i$ & $\sum X$ & $\bar{X}_i$ \\
+\midrule
+RC & 4 & 13 & 3.25 \\
+RP & 4 & 14 & 3.50 \\
+LC & 4 & 4  & 1.00 \\
+\midrule
+Total & 12 & 31 & 2.583 (grand mean) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Step 2: Sum of Squares} (using $C=\dfrac{(\sum\sum data)^2}{N}=\dfrac{31^2}{12}=80.08$):
+\[
+SS_{total} = \sum\sum X_{ij}^2 - C = 119.0 - 80.083 = 38.917
+\]
+\[
+SS_{group} = \sum\frac{(\sum X_{ij})^2}{n_i} - C = \frac{13^2}{4}+\frac{14^2}{4}+\frac{4^2}{4} - 80.083 = 95.25-80.083 = 15.167
+\]
+\[
+SS_{error} = SS_{total}-SS_{group} = 38.917-15.167 = 23.750
+\]
+
+\textbf{Step 3: ANOVA Table.}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Source & SS & df & MS & F \\
+\midrule
+Between diets & 15.167 & 2 & 7.583 & \\
+Within (error) & 23.750 & 9 & 2.639 & \\
+\midrule
+Total & 38.917 & 11 & & $F = 7.583/2.639 = 2.874$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Step 4: Critical value.} $F_{0.05}(2,9) = 4.26$.
+
+\textbf{Step 5: Decision.} Since $F_{calc} = 2.874 < F_{crit} = 4.26$, we \textbf{fail to reject $H_0$}.
+
+\textbf{Step 6: Establishing the hypothesis.} At the 5\% significance level, there is \textbf{no statistically significant difference} in the mean weight change among the three diet types (Restricted Calorie, Reduced Protein, Low Carbohydrates) in this trial. Although the sample means suggest RP and RC produce more weight loss than LC, the within-group variability is too large relative to the between-group differences (with only 4 subjects per diet) to draw a statistically reliable distinction at this sample size.
+
+\end{document}

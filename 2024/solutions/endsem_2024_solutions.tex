@@ -1,0 +1,421 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\tcbuselibrary{breakable}
+
+\definecolor{qcolor}{RGB}{0,70,140}
+\definecolor{acolor}{RGB}{0,110,60}
+\definecolor{notecolor}{RGB}{150,80,0}
+\definecolor{gapcolor}{RGB}{180,0,0}
+
+\newtcolorbox{question}[1]{%
+  colback=qcolor!5, colframe=qcolor, fonttitle=\bfseries,
+  title={#1}, breakable
+}
+
+\newtcolorbox{gapbox}[1]{%
+  colback=gapcolor!5, colframe=gapcolor, fonttitle=\bfseries,
+  title={#1}, breakable
+}
+
+\newcommand{\soln}{\par\noindent\textcolor{acolor}{\textbf{Solution.}}\quad}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\fancyhead[L]{LS3202 Biostatistics}
+\fancyhead[R]{End-Semester 2024 -- Solutions}
+\fancyfoot[C]{\thepage}
+
+\title{\textbf{LS3202 Biostatistics \\ End-Semester Examination 2024 -- Solved} \\ \large (6th May 2024, Spring)}
+\author{Solutions prepared for student reference \\ \small (Original question paper by Dipjyoti Das)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=notecolor!8, colframe=notecolor, title=Note on this paper]
+Total Marks: 40. Students were asked to show all steps clearly, state all assumptions, and write relevant formulae with variables defined.
+
+\vspace{0.3em}
+\textcolor{gapcolor}{\textbf{Important gap in the scanned paper:}} The available scan is missing the page containing \textbf{Q3 parts (a) and (b)} -- only part (c) survives, along with Q3's reference to a ``biochemist's postulate'' and dataset which are not shown in the recovered pages. \textbf{Q5} (worth marks beyond Q4) is also not present in the available scan. These are flagged clearly at the relevant point below rather than guessed. If you have a copy of the missing page(s), please contribute it back to this repository.
+\end{tcolorbox}
+
+\tableofcontents
+\vspace{1em}
+
+%================================================================
+\section{Question 1 -- Probability distributions (Marks: 5$\times$2 = 10)}
+\begin{question}{Q1}
+\begin{enumerate}[label=(\alph*)]
+\item If the probability that an individual will suffer a bad reaction after a given injection is 0.001, then what will be the probability that \emph{more than} 2 individuals will suffer a bad reaction out of 2000 individuals who got the injection?
+\item Data from a survey found that subjects over age 50 had a mean HDL of 54 mg/dl and a standard deviation of 17. Suppose a physician has 40 patients over age 50 and wants to determine the probability that the mean HDL cholesterol for this sample of 40 men is 60 mg/dl or more. Find this probability.
+\item Suppose that the probability of recovering from a rare blood disease is 0.4. If 15 people have contracted this disease, what is the probability that \emph{at least} 10 will survive?
+\item For certain manufacturing of injection vials, 1 in every 100 vials is defective on average. What is the probability that the 5th vial inspected is the first defective one found?
+\item Males of a certain species of mosquitos have lifespans that are strongly skewed to the right with a mean of 8 days and a standard deviation of 6 days. A biologist collects a random sample of 50 of these male mosquitos, and uses them to calculate the sample mean lifespan. We can assume that the mosquitos in each sample are independent. What will be the approximate shape of the distribution of the sample mean lifespan? Provide your answers based on mathematical logic.
+\end{enumerate}
+\end{question}
+
+\soln
+
+\subsection*{(a) Poisson approximation to Binomial}
+$n=2000$, $p=0.001$. Since $n$ is large and $p$ small, use Poisson approximation with $\lambda = np = 2$.
+\[
+P(X > 2) = 1 - P(X\le 2) = 1 - e^{-2}\left(1+2+\frac{2^2}{2!}\right) = 1-5e^{-2}
+\]
+\[
+\boxed{P(X>2) = 1 - 0.6767 = 0.3233}
+\]
+
+\subsection*{(b) Sampling distribution of the mean}
+$\mu=54$, $\sigma=17$, $n=40$. By the CLT, $\bar{X}\sim N(\mu,\sigma^2/n)$ approximately.
+\[
+SE = \frac{17}{\sqrt{40}} = 2.688, \qquad z = \frac{60-54}{2.688} = 2.232
+\]
+\[
+\boxed{P(\bar{X}\ge 60) = 1-\Phi(2.232) = 0.0128}
+\]
+
+\subsection*{(c) Binomial: at least 10 survive out of 15}
+$n=15$, $p=0.4$ (probability of recovery). $X\sim\text{Binomial}(15,0.4)$.
+\[
+P(X\ge 10) = \sum_{k=10}^{15}\binom{15}{k}(0.4)^k(0.6)^{15-k}
+\]
+\[
+\boxed{P(X\ge 10) = 0.0338}
+\]
+(This small probability reflects that the expected number of survivors is $np=6$, so getting 10 or more survivors out of 15 would be an unusually favorable outcome.)
+
+\subsection*{(d) Geometric distribution}
+$p=0.01$ (probability defective). $P(X=5) = (1-p)^4p = (0.99)^4(0.01)$.
+\[
+\boxed{P(X=5) = 0.0096}
+\]
+
+\subsection*{(e) Central Limit Theorem with a skewed population}
+Even though the individual mosquito lifespans are \textbf{strongly right-skewed} (not Normal), the \textbf{Central Limit Theorem} states that the sampling distribution of the sample mean $\bar{X}$ approaches a \textbf{Normal distribution} as the sample size $n$ increases, regardless of the shape of the parent population, provided $n$ is reasonably large and the population variance is finite.
+
+With $n=50$ (generally considered large enough for the CLT to give a good Normal approximation, especially since the skew here, while present, is not extreme), the sampling distribution of the sample mean lifespan will be:
+\[
+\bar{X} \sim N\left(\mu=8,\ \frac{\sigma^2}{n}=\frac{36}{50}=0.72\right) \quad \text{approximately, i.e., } \bar{X}\sim N(8,\ SE=0.849)
+\]
+
+\[
+\boxed{\text{The sample mean lifespan distribution is approximately \emph{Normal} (bell-shaped, symmetric)}}
+\]
+even though the underlying individual lifespans are skewed -- this is precisely the power and utility of the CLT.
+
+%================================================================
+\section{Question 2 -- Piecewise Linear Regression and Correlation (Marks: not explicitly stated, part of 40)}
+\begin{question}{Q2}
+A postulates that the foldability ($f$, varying between 100\% and 0\%) of a protein is inversely proportional to the pressure (P, in bar) applied. Her data is plotted below with each $(f,P)$ measurement indicated:
+
+\begin{center}
+\begin{tabular}{c|c}
+\toprule
+$f$ (\%) & $P$ (bar) \\
+\midrule
+38.7 & 1 \\
+26.5 & 500 \\
+20.7 & 500 \\
+18.5 & 1000 \\
+19.9 & 5000 \\
+23.6 & 7000 \\
+29.4 & 10000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[label=(\alph*)]
+\item Perform linear regressions using the first 4 data points, the last 3 data points, and all data points. Write down the individual regression equations.
+\item Evaluate the correlation coefficient in all the situations above.
+\end{enumerate}
+\end{question}
+
+\soln
+
+Looking at the plotted curve, foldability $f$ first \emph{decreases} sharply as $P$ increases from near 0 to about 1000 bar, then \emph{increases} again as $P$ rises further to 10000 bar -- i.e., the relationship is clearly \textbf{non-monotonic (U-shaped)}, not a single straight line. This is exactly what the three separate regressions below will reveal.
+
+\subsection*{(a)+(b) Three regressions: first 4 points, last 3 points, all 7 points}
+
+\textbf{Regression 1: First 4 points} $(38.7,1), (26.5,500), (20.7,500), (18.5,1000)$ -- treating $P$ as $X$ and $f$ as $Y$:
+
+\[
+\hat{f} = 36.21 - 0.0202\,P
+\]
+\[
+\boxed{r_1 = -0.911, \qquad r_1^2 = 0.829}
+\]
+This shows a strong \textbf{negative} linear relationship over this low-pressure range -- foldability drops sharply as pressure increases, consistent with the postulate of inverse proportionality (at least locally).
+
+\textbf{Regression 2: Last 3 points} -- i.e., the final three points in the table, $(19.9,5000), (23.6,7000), (29.4,10000)$:
+
+\[
+\hat{f} = 10.35 + 0.0019\,P
+\]
+\[
+\boxed{r_2 = 0.9999, \qquad r_2^2 = 0.9999}
+\]
+This shows an almost \textbf{perfect positive} linear relationship over the high-pressure range -- foldability \emph{increases} with pressure here, the \textbf{opposite} trend from the first segment.
+
+\textbf{Regression 3: All 7 points together:}
+
+\[
+\hat{f} = 25.59 - 0.0001\,P
+\]
+\[
+\boxed{r_3 = -0.042, \qquad r_3^2 = 0.0018}
+\]
+This regression is essentially \textbf{meaningless} -- the slope is nearly flat and $r_3 \approx 0$, even though strong linear relationships exist within each half of the data.
+
+\subsection*{Comment / interpretation}
+This question illustrates a classic pitfall: \textbf{fitting a single straight line to data that is not globally linear} can mask strong underlying patterns. Here, $f$ vs.\ $P$ is U-shaped (decreasing then increasing), so:
+\begin{itemize}
+\item Each "half" of the data, taken separately, shows a strong, statistically meaningful linear trend ($|r|>0.9$ in both halves) -- but in \emph{opposite} directions.
+\item Combining all the data into a single linear regression cancels these trends out almost entirely, giving a near-zero, non-significant correlation ($r_3\approx -0.04$) that would wrongly suggest "no relationship" between $f$ and $P$.
+\end{itemize}
+\textbf{Lesson:} always visualize the data (scatter plot) before committing to a single linear regression -- the scientist's original postulate of simple inverse proportionality is \textbf{not well supported globally}; the true relationship appears non-linear (e.g., possibly quadratic or some other U-shaped function over the full pressure range), even though locally-linear approximations work well within restricted ranges.
+
+%================================================================
+\section{Question 3 -- Hypothesis testing on biochemist's data \& Calcium/Bone health ANOVA}
+\begin{gapbox}{Missing material: Q3 parts (a) and (b)}
+The scanned paper available for these solutions is missing the page containing \textbf{Q3(a)} and \textbf{Q3(b)} -- these appear to relate to a biochemist's data and postulate (referenced in part (c) below as ``the biochemist's postulate''), with an associated dataset that is not present in the recovered scan. Marks breakdown given was \textbf{(4+4+2 marks)} for parts (a), (b), (c) respectively.
+
+If you have access to the original paper, please add the missing page to this repository so a complete solution to (a) and (b) can be written. We solve part (c) below in general terms, since the specific dataset is unavailable.
+\end{gapbox}
+
+\begin{question}{Q3(c)}
+Based on your own analysis and inspection of the data, comment on the biochemist's postulate. Should she alter her analysis method? If so, why? (2 marks, part of the 4+4+2 split)
+\end{question}
+
+\soln
+Without the original dataset, we can only answer this in general methodological terms (the kind of reasoning expected for this part):
+
+When a researcher's postulate involves a claimed relationship (e.g., proportionality, linearity, or a specific trend) between two variables, a careful analyst should:
+\begin{enumerate}
+\item \textbf{Visualize the data first} (scatter plot) before fitting any model, to check whether the assumed functional form (e.g., linear) is actually appropriate across the full range of the data.
+\item \textbf{Check the correlation coefficient and its statistical significance}, not just the sign of the trend -- a high $r$ in a sub-range does not guarantee the same relationship holds globally.
+\item \textbf{Examine the residuals} of any fitted regression for patterns (curvature, fanning, clustering) that would indicate the linear model is inadequate.
+\item \textbf{Avoid extrapolation} beyond the range of the observed data.
+\end{enumerate}
+
+If the postulated relationship (e.g., simple linear/inverse proportionality, as in Q2 above) does not hold uniformly over the studied range -- for instance, if the true relationship is non-monotonic or curvilinear -- then \textbf{yes, the biochemist should alter her analysis method}: rather than fitting a single linear regression across the whole range, she should consider:
+\begin{itemize}
+\item Segmented/piecewise regression (fitting separate lines or curves to different regions, as illustrated in Q2),
+\item A non-linear regression model (e.g., quadratic, exponential, or another function suggested by the shape of the scatter plot),
+\item Or transforming one or both variables to linearize the relationship before fitting.
+\end{itemize}
+
+\textit{(Once the missing page is available, this section should be revised to reference the specific data and postulate given in the actual question.)}
+
+%================================================================
+\section{Question 3 -- Calcium Intake and Bone Health (One-way ANOVA) (Marks: 2+8)}
+\begin{question}{Q3 (continued)}
+A clinic conducted a study to evaluate the effect of Calcium intake on bone health. Three groups were evaluated for bone density and labelled Normal (NML), pre-Osteoporosis (POS) and Osteoporosis (OS). The average daily Calcium intake (in milligrams) was recorded for a month in the Table:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+NML & POS & OS \\
+\midrule
+1200 & 1000 & 890 \\
+1000 & 1100 & 650 \\
+980  & 700  & 1100 \\
+900  & 800  & 900 \\
+750  & 500  & 400 \\
+800  & 700  & 350 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[label=(\alph*)]
+\item Construct a hypothesis concerning of Calcium intake and bone health.
+\item Test your hypothesis using the single-factor ANOVA test. All steps and a suitable table must be clearly done. Use $\alpha=0.05$.
+\end{enumerate}
+\end{question}
+
+\soln
+
+\subsection*{(a) Hypothesis}
+\[
+H_0: \mu_{NML} = \mu_{POS} = \mu_{OS} \quad (\text{mean daily Calcium intake is the same across all three bone-health groups})
+\]
+\[
+H_1: \text{at least one group mean differs from the others}
+\]
+
+\subsection*{(b) One-way ANOVA}
+
+\textbf{Step 1: Group sums, means, and overall ($N=18$).}
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Group & $n_i$ & $\sum X$ & $\bar{X}_i$ \\
+\midrule
+NML & 6 & 5630 & 938.33 \\
+POS & 6 & 4800 & 800.00 \\
+OS  & 6 & 4290 & 715.00 \\
+\midrule
+Total & 18 & 14720 & 817.78 (grand mean) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Step 2: Sum of Squares} (using $C = \dfrac{(\sum\sum data)^2}{N}$):
+\[
+C = \frac{(14720)^2}{18} = 12{,}037{,}688.9
+\]
+\[
+SS_{total} = \sum\sum X_{ij}^2 - C = 972{,}311.1
+\]
+\[
+SS_{group} = \sum \frac{(\sum X_{ij})^2}{n_i} - C = \frac{5630^2}{6}+\frac{4800^2}{6}+\frac{4290^2}{6} - C = 152{,}477.8
+\]
+\[
+SS_{error} = SS_{total} - SS_{group} = 972{,}311.1 - 152{,}477.8 = 819{,}833.3
+\]
+
+\textbf{Step 3: ANOVA Table.}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Source & SS & df & MS & F \\
+\midrule
+Between groups & 152{,}477.8 & 2  & 76{,}238.9 & \\
+Within groups (error) & 819{,}833.3 & 15 & 54{,}655.6 & \\
+\midrule
+Total & 972{,}311.1 & 17 & & $F = 76238.9/54655.6 = 1.395$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Step 4: Critical value.} $F_{0.05}(2,15) = 3.68$.
+
+\textbf{Step 5: Decision.} Since $F_{calc} = 1.395 < F_{crit} = 3.68$ (equivalently, $p$-value $= 0.278 > 0.05$), we \textbf{fail to reject $H_0$}.
+
+\textbf{Step 6: Inference.} At the 5\% significance level, there is \textbf{no statistically significant difference} in the mean daily Calcium intake among the Normal, pre-Osteoporosis, and Osteoporosis groups. Although the sample means show a decreasing trend (NML $>$ POS $>$ OS), this trend is not strong enough, relative to the within-group variability, to be distinguished from random sampling variation at this sample size.
+
+%================================================================
+\section{Question 4 -- Non-parametric tests \& Kruskal--Wallis on Ant Weights}
+\begin{question}{Q4}
+\begin{enumerate}[label=(\alph*)]
+\item What is a non-parametric statistical test? Name a non-parametric test that you understand. Specify the conditions and approximations associated with this test.
+\end{enumerate}
+
+The scaled weights (Wt.) of four groups of ants ($\delta$ A, B, C and D) along with their ranks ($R_k$) are provided below:
+
+\begin{center}
+\small
+\begin{tabular}{l|cccccccccccc}
+\toprule
+Wt. & 5 & 6 & 7 & 8 & 9 & 9 & 10 & 10 & 11 & 11 & 11 & 12 \\
+$R_k$ & 1 & 2 & 3 & 4 & 5.5 & 5.5 & 7.5 & 7.5 & 10 & 10 & 10 & 13 \\
+Group & A & A & A & A & B & A & C & B & C & B & A & C \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\begin{tabular}{l|cccccccccccc}
+\toprule
+Wt. & 12 & 12 & 13 & 14 & 14 & 15 & 16 & 16 & 17 & 18 & 20 & 22 \\
+$R_k$ & 13 & 13 & 15 & 16.5 & 16.5 & 18 & 19.5 & 19.5 & 21 & 22 & 23 & 24 \\
+Group & B & B & B & D & C & D & D & C & C & D & D & D \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[resume,label=(\alph*)]
+\item Construct a suitable hypothesis regarding the weights of the ant groups.
+\item Test your hypothesis appropriately. Clearly describe your rationale. Use $\alpha=0.05$.
+\end{enumerate}
+(Marks: 2+2+6)
+\end{question}
+
+\soln
+
+\subsection*{(a) Non-parametric tests -- general concept}
+A \textbf{non-parametric test} is a hypothesis test that does \emph{not} require the assumption that the underlying data come from a specific probability distribution (e.g., it does not assume Normality). Non-parametric tests typically work with the \textbf{ranks} of the data rather than the raw values, making them more robust to outliers and applicable to ordinal or non-Normal data, though usually at some cost in statistical power compared to the corresponding parametric test when the parametric assumptions \emph{do} hold.
+
+\textbf{Example: The Kruskal--Wallis $H$ test} (the non-parametric analogue of one-way ANOVA, used below for comparing more than two independent groups).
+
+\textbf{Conditions/approximations:}
+\begin{itemize}
+\item Samples are independent and randomly drawn from their respective populations.
+\item The variable being measured is at least ordinal (can be ranked).
+\item No assumption of Normality of the underlying distributions is required.
+\item For larger sample sizes (e.g., each group size $\ge 5$), the test statistic $H$ is approximately $\chi^2$-distributed with $k-1$ degrees of freedom ($k$ = number of groups), which is the approximation used to obtain a $p$-value.
+\item Tied ranks (as occur here) require a correction factor for greater accuracy.
+\end{itemize}
+
+\subsection*{(b) Hypothesis}
+\[
+H_0: \text{All four ant groups (A, B, C, D) have the same distribution of (scaled) weight}
+\]
+\[
+H_1: \text{At least one group's weight distribution differs from the others}
+\]
+
+\subsection*{(c) Kruskal--Wallis Test}
+
+We use the Kruskal--Wallis $H$ (here called $W$ per the formula sheet provided):
+\[
+W = \frac{12}{n(n+1)}\sum_p \frac{r_p^2}{u_p} - 3(n+1)
+\]
+where $n=24$ (total ants), $u_p$ = number of ants in group $p$, and $r_p$ = sum of ranks in group $p$.
+
+\textbf{Step 1: Sum of ranks per group} (verify total $= \frac{24\times25}{2}=300$):
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Group & $u_p$ (n) & Ranks & $r_p$ (sum) \\
+\midrule
+A & 6 & 1, 2, 3, 4, 5.5, 10 & 25.5 \\
+B & 6 & 5.5, 7.5, 10, 13, 13, 15 & 64.0 \\
+C & 6 & 7.5, 10, 13, 16.5, 19.5, 21 & 87.5 \\
+D & 6 & 16.5, 18, 19.5, 22, 23, 24 & 123.0 \\
+\midrule
+Total & 24 & & 300.0 \checkmark \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Step 2: Compute $W$ (uncorrected for ties).}
+\[
+\sum_p \frac{r_p^2}{u_p} = \frac{25.5^2}{6}+\frac{64.0^2}{6}+\frac{87.5^2}{6}+\frac{123.0^2}{6} = 108.375+682.67+1276.04+2522.0 = 4589.1
+\]
+\[
+W = \frac{12}{24\times25}(4589.1) - 3(25) = \frac{12}{600}(4589.1) - 75 = 91.78-75 = 16.77
+\]
+
+\textbf{Step 3: Tie correction.} Since there are several tied ranks (e.g., two ants tied at rank 5.5, three tied at rank 10, etc.), apply the correction factor:
+\[
+C_{tie} = 1 - \frac{\sum (t^3-t)}{N^3-N}
+\]
+where $t$ is the number of observations tied at each rank value. With $N=24$ and the tie pattern in this data, $C_{tie} \approx 0.9948$.
+\[
+W_{corrected} = \frac{16.77}{0.9948} = 16.86
+\]
+
+\textbf{Step 4: Critical value.} Under $H_0$, $W \sim \chi^2_{k-1}$ approximately, with $k-1 = 3$ degrees of freedom:
+\[
+\chi^2_{0.05,\,3} = 7.815
+\]
+
+\textbf{Step 5: Decision.} Since $W_{corrected} = 16.86 > \chi^2_{crit} = 7.815$, we \textbf{reject $H_0$}.
+
+\textbf{Step 6: Inference.} At the 5\% significance level, there is a statistically significant difference in (scaled) weight distributions among the four ant groups A, B, C, and D. Looking at the rank sums, group A tends to have the \emph{lowest} weights (smallest rank sum, 25.5) while group D tends to have the \emph{highest} weights (largest rank sum, 123.0), with B and C in between.
+
+\begin{gapbox}{Missing material: Question 5}
+The available scan ends after Question 4. If this paper included a Question 5 (the marks breakdown on the title page totals 40, and Q1--Q4 above account for $10+(\text{unspecified for Q2})+14+10$ marks), it is not present in the recovered pages. Please contribute the missing page if available.
+\end{gapbox}
+
+\end{document}

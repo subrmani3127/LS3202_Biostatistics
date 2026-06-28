@@ -1,0 +1,264 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable}
+
+\definecolor{qcolor}{RGB}{0,70,140}
+\definecolor{acolor}{RGB}{0,110,60}
+\definecolor{notecolor}{RGB}{150,80,0}
+
+\newtcolorbox{question}[1]{%
+  colback=qcolor!5, colframe=qcolor, fonttitle=\bfseries,
+  title={#1}, breakable
+}
+
+\newcommand{\soln}{\par\noindent\textcolor{acolor}{\textbf{Solution.}}\quad}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\fancyhead[L]{LS3202 Biostatistics}
+\fancyhead[R]{MidSem 2024 -- Solutions}
+\fancyfoot[C]{\thepage}
+
+\title{\textbf{LS3202 Biostatistics \\ MidSem Examination 2024 -- Solved} \\ \large (February 9, 2024)}
+\author{Solutions prepared for student reference \\ \small (Original question paper by Dipjyoti Das)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=notecolor!8, colframe=notecolor, title=Note on this paper]
+Total Marks: 25.
+\end{tcolorbox}
+
+\tableofcontents
+\vspace{1em}
+
+%================================================================
+\section{Question 1 -- Binomial distribution (Marks: 2+2)}
+\begin{question}{Q1}
+A daily dose of vitamin C was tested to determine its efficacy in preventing the common cold. Four people who followed this dose were observed for one year. For each individual, the probability of surviving the winter without a common cold is 0.8.
+\begin{enumerate}[label=(\alph*)]
+\item What is the probability that \emph{exactly} two individuals will survive the cold?
+\item What is the probability that \emph{at least} one individual will survive the cold?
+\end{enumerate}
+\end{question}
+
+\soln
+Let $X$ = number of individuals (out of $n=4$) who survive the winter without a cold, with $p = 0.8$ (probability of surviving for each individual). Then $X \sim \text{Binomial}(n=4, p=0.8)$:
+\[
+P(X=k) = \binom{4}{k}(0.8)^k(0.2)^{4-k}
+\]
+
+\textbf{(a) Exactly two survive:}
+\[
+P(X=2) = \binom{4}{2}(0.8)^2(0.2)^2 = 6 \times 0.64 \times 0.04
+\]
+\[
+\boxed{P(X=2) = 0.1536}
+\]
+
+\textbf{(b) At least one survives:}
+It's easiest to use the complement: $P(X \ge 1) = 1 - P(X=0)$.
+\[
+P(X=0) = \binom{4}{0}(0.8)^0(0.2)^4 = (0.2)^4 = 0.0016
+\]
+\[
+\boxed{P(X \ge 1) = 1 - 0.0016 = 0.9984}
+\]
+
+%================================================================
+\section{Question 2 -- Expected value of a Binomial (Marks: 2)}
+\begin{question}{Q2}
+Suppose that a person tosses an unbiased coin two times. What is the average number of `heads' in these two tosses?
+\end{question}
+
+\soln
+Let $X$ = number of heads in 2 tosses of a fair coin. Then $X \sim \text{Binomial}(n=2, p=0.5)$.
+
+The expected value (mean) of a Binomial random variable is:
+\[
+E[X] = np
+\]
+\[
+\boxed{E[X] = 2 \times 0.5 = 1}
+\]
+
+On average, we expect 1 head in 2 tosses of a fair coin.
+
+%================================================================
+\section{Question 3 -- Variance of the Sample Mean (Marks: 2)}
+\begin{question}{Q3}
+Let $\bar{X}$ be the sample estimate of a population mean $\mu$. The sample has a size $n$ and it is taken from a large population that has a variance $\sigma^2$. Note that $\bar{X}$ is itself a random number. Calculate the variance of $\bar{X}$?
+\end{question}
+
+\soln
+The sample mean is $\bar{X} = \dfrac{1}{n}\sum_{i=1}^n X_i$, where each $X_i$ is drawn independently from the population with variance $\sigma^2$.
+
+Using the variance property for a sum of independent random variables, and that $Var(cX) = c^2 Var(X)$:
+\[
+Var(\bar{X}) = Var\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\sum_{i=1}^n Var(X_i) = \frac{1}{n^2}(n\sigma^2)
+\]
+
+\[
+\boxed{Var(\bar{X}) = \frac{\sigma^2}{n}}
+\]
+
+This is the well-known result that the variance of the sample mean decreases as the sample size $n$ increases -- larger samples give more precise (less variable) estimates of the population mean. The square root of this, $\sigma/\sqrt{n}$, is the \textbf{Standard Error} of the mean.
+
+%================================================================
+\section{Question 4 -- Variance and Standard Deviation of a sample (Marks: 2)}
+\begin{question}{Q4}
+Calculate the variance and standard deviation of five independent measurements, which are 5, 7, 1, 2, and 4.
+\end{question}
+
+\soln
+\textbf{Data:} $5, 7, 1, 2, 4$. \quad $n=5$.
+
+\textbf{Mean:}
+\[
+\bar{x} = \frac{5+7+1+2+4}{5} = \frac{19}{5} = 3.8
+\]
+
+\textbf{Deviations and squared deviations:}
+\begin{center}
+\begin{tabular}{c c c}
+\toprule
+$x_i$ & $x_i - \bar{x}$ & $(x_i-\bar{x})^2$ \\
+\midrule
+5 & 1.2  & 1.44 \\
+7 & 3.2  & 10.24 \\
+1 & $-2.8$ & 7.84 \\
+2 & $-1.8$ & 3.24 \\
+4 & 0.2  & 0.04 \\
+\midrule
+\multicolumn{2}{r}{Sum} & 22.80 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Since these are taken as a \textbf{sample} (an estimate of an unknown population), we use the \emph{sample} variance formula (dividing by $n-1$, Bessel's correction, which gives an unbiased estimator of the population variance):
+
+\[
+s^2 = \frac{\sum (x_i-\bar{x})^2}{n-1} = \frac{22.8}{4} = 5.7
+\]
+
+\[
+\boxed{s^2 = 5.7, \qquad s = \sqrt{5.7} = 2.387}
+\]
+
+\textit{(Note: If instead these are treated as the entire population of interest, dividing by $n=5$ gives $\sigma^2 = 4.56$ and $\sigma = 2.135$. Given the phrasing "independent measurements" suggesting a sample estimate, the $n-1$ version above is the more standard answer in a Biostatistics context.)}
+
+%================================================================
+\section{Question 5 -- Variance of a linear combination (Marks: 2)}
+\begin{question}{Q5}
+Suppose, $Z = aX - bY$, where $X$ and $Y$ are independent random variables, and $a$ and $b$ are constants. Then show that the variance obeys the relation: $Var(Z) = a^2Var(X) + b^2Var(Y)$.
+\end{question}
+
+\soln
+By definition of variance,
+\[
+Var(Z) = E\left[(Z-E[Z])^2\right]
+\]
+
+Since $Z = aX - bY$, we have $E[Z] = aE[X] - bE[Y]$, so
+\[
+Z - E[Z] = a(X-E[X]) - b(Y-E[Y])
+\]
+
+Squaring both sides:
+\[
+(Z-E[Z])^2 = a^2(X-E[X])^2 + b^2(Y-E[Y])^2 - 2ab(X-E[X])(Y-E[Y])
+\]
+
+Taking expectations on both sides:
+\[
+Var(Z) = a^2 Var(X) + b^2 Var(Y) - 2ab\,Cov(X,Y)
+\]
+
+Since $X$ and $Y$ are \textbf{independent}, $Cov(X,Y) = 0$. The cross term vanishes, leaving:
+
+\[
+\boxed{Var(Z) = a^2Var(X) + b^2Var(Y)}
+\]
+
+\textit{(Note: the result is the same whether $Z=aX+bY$ or $Z=aX-bY$, because the cross-covariance term -- which is the only place the sign of $b$ would matter -- drops out entirely under independence.)}
+
+%================================================================
+\section{Question 6 -- Geometric distribution (Marks: 3)}
+\begin{question}{Q6}
+During a blood test, one in every 100 individuals is positive for a certain disease, on average. What is the probability that the 5th individual tested is the first positive found?
+\end{question}
+
+\soln
+Let $p=0.01$ be the probability an individual tests positive, and let $X$ be the number of individuals tested up to and including the first positive case. Then $X$ follows a \textbf{Geometric distribution}:
+\[
+P(X=k) = (1-p)^{k-1}p
+\]
+
+We want the probability that the first 4 individuals test negative and the 5th tests positive:
+\[
+P(X=5) = (1-p)^4 p = (0.99)^4(0.01)
+\]
+
+\[
+\boxed{P(X=5) = 0.9606 \times 0.01 = 0.009606 \approx 0.0096}
+\]
+
+%================================================================
+\section{Question 7 -- MGF of the Binomial distribution (Marks: 2+3)}
+\begin{question}{Q7}
+\begin{enumerate}[label=(\alph*)]
+\item Calculate the Moment Generating Function (MGF) of a Binomial distribution.
+\item Using the result of (a), show that the sum of two independent binomial random variables is itself a binomial random variable if the variables share the same success probability.
+\end{enumerate}
+\end{question}
+
+\soln
+
+\subsection*{(a) MGF of the Binomial distribution}
+
+For $X \sim \text{Binomial}(n,p)$, the MGF is defined as $M_X(t) = E[e^{tX}]$.
+
+\[
+M_X(t) = \sum_{k=0}^{n} e^{tk}\binom{n}{k}p^k(1-p)^{n-k}
+= \sum_{k=0}^{n}\binom{n}{k}(pe^t)^k(1-p)^{n-k}
+\]
+
+This is exactly the Binomial expansion of $\left[(1-p) + pe^t\right]^n$:
+
+\[
+\boxed{M_X(t) = \left[(1-p) + pe^t\right]^n}
+\]
+
+\subsection*{(b) Sum of two independent Binomials with the same $p$}
+
+Let $X_1 \sim \text{Binomial}(n_1, p)$ and $X_2 \sim \text{Binomial}(n_2,p)$ be independent, with the \emph{same} success probability $p$. Let $S = X_1+X_2$.
+
+A key property of MGFs: for independent random variables, the MGF of the sum is the \emph{product} of individual MGFs:
+\[
+M_S(t) = M_{X_1}(t)\cdot M_{X_2}(t)
+\]
+
+Using the result from part (a):
+\[
+M_S(t) = \left[(1-p)+pe^t\right]^{n_1} \cdot \left[(1-p)+pe^t\right]^{n_2} = \left[(1-p)+pe^t\right]^{n_1+n_2}
+\]
+
+This is precisely the MGF of a $\text{Binomial}(n_1+n_2,\,p)$ random variable. Since the MGF uniquely determines the distribution, we conclude:
+
+\[
+\boxed{S = X_1+X_2 \sim \text{Binomial}(n_1+n_2,\ p)}
+\]
+
+This makes intuitive sense: if $X_1$ counts successes in $n_1$ independent trials and $X_2$ counts successes in $n_2$ independent trials (each with the same success probability $p$), then their sum simply counts successes across all $n_1+n_2$ trials combined.
+
+\end{document}
