@@ -15,6 +15,9 @@ LS3202_Biostatistics/
 ├── 2025/
 │   ├── question_papers/
 │   └── solutions/
+├── 2026/
+├── question_papers/
+│   └── solutions/
 └── README.md                 <- this file
 ```
 
