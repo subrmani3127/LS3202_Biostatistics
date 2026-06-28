@@ -2,7 +2,7 @@
 
 This repository contains question papers and fully worked solutions for **LS3202 (Biostatistics)**, organized by year. It was compiled by a former Teaching Assistant for the course, for the benefit of future students.
 
-## How this is organized
+## This is how the answers for question papers are organised
 
 ```
 LS3202_Biostatistics/
